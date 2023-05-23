@@ -231,7 +231,16 @@ function click() {
 }
 
 function cameraShake(){
-    
+    let shakeIntensity = 0.1;
+    console.log(camera.position)
+
+    camera.position.set(camera.position.x + shakeIntensity, camera.position.y, camera.position.z);
+    setTimeout(function () {
+        camera.position.set(camera.position.x - shakeIntensity, camera.position.y, camera.position.z);
+        setTimeout(function () {
+            camera.position.set(camera.position.x + shakeIntensity, camera.position.y, camera.position.z);
+        }, 100);
+    }, 100);
 }
 
 window.addEventListener('click', click, false);
