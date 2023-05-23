@@ -31,6 +31,7 @@ controls.mouseButtons = {
 	RIGHT: THREE.MOUSE.ROTATE
 }
 
+
 controls.maxDistance = 4.6;
 controls.minDistance = 2;
 
@@ -39,6 +40,9 @@ controls.minPolarAngle = THREE.Math.degToRad(50);
 
 controls.maxAzimuthAngle = THREE.Math.degToRad(-90);
 controls.minAzimuthAngle = THREE.Math.degToRad(155);
+
+controls.enableDamping = true;
+controls.dampingFactor = 0.01;
 
 controls.update();
 
@@ -217,7 +221,17 @@ function click() {
     plate2BounceAction.stop();
     steakBounceAction.stop();
 
+    let audio = new Audio('./assets/Audio/plateBump.mp3');
+    audio.volume = 0.5;
+    audio.play();
+
+    cameraShake();
+
     playAnimation();
+}
+
+function cameraShake(){
+    
 }
 
 window.addEventListener('click', click, false);
