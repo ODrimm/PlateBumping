@@ -26,6 +26,20 @@ renderer.outputColorSpace = THREE.SRGBColorSpace;
 document.body.appendChild(renderer.domElement);
 
 const controls = new OrbitControls(camera, renderer.domElement);
+controls.mouseButtons = {
+	MIDDLE: THREE.MOUSE.DOLLY,
+	RIGHT: THREE.MOUSE.ROTATE
+}
+
+controls.maxDistance = 4.6;
+controls.minDistance = 2;
+
+controls.maxPolarAngle = THREE.Math.degToRad(80);
+controls.minPolarAngle = THREE.Math.degToRad(50);
+
+controls.maxAzimuthAngle = THREE.Math.degToRad(-90);
+controls.minAzimuthAngle = THREE.Math.degToRad(155);
+
 controls.update();
 
 
@@ -37,11 +51,12 @@ let plate2Bounce;
 let steakBounce;
 let steakBounceSK;
 
-let plateBounceAction
-let forkBounceAction
-let plate2BounceAction
-let steakBounceAction
-let steakBounceSKAction
+let plateBounceAction;
+let forkBounceAction;
+let plate2BounceAction;
+let steakBounceAction;
+let steakBounceSKAction;
+
 
 let mixer;
 
@@ -73,19 +88,18 @@ loader.load('assets/3d/objects.gltf', function (gltf) {
     mixer = new THREE.AnimationMixer(gltf.scene);
 
     plateBounceAction = mixer.clipAction(plateBounce);
-    plateBounceAction.play();
-
     forkBounceAction = mixer.clipAction(forkBounce);
-    forkBounceAction.play();
-
     plate2BounceAction = mixer.clipAction(plate2Bounce);
-    plate2BounceAction.play();
-
     steakBounceAction = mixer.clipAction(steakBounce);
-    steakBounceAction.play();
-
     steakBounceSKAction = mixer.clipAction(steakBounceSK);
-    steakBounceSKAction.play();
+    plateBounceAction.setLoop(THREE.LoopOnce);
+    forkBounceAction.setLoop(THREE.LoopOnce);
+    plate2BounceAction.setLoop(THREE.LoopOnce);
+    steakBounceAction.setLoop(THREE.LoopOnce);
+    steakBounceSKAction.setLoop(THREE.LoopOnce);
+
+    playAnimation();
+
 
     gltf.scene.traverse(function (child) {
 
@@ -151,7 +165,7 @@ scene.add(ambientLight);
 
 
 const geometry = new THREE.BoxGeometry(1, 1, 5);
-const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+const material = new THREE.MeshBasicMaterial({ color: 0x00ff00, transparent: true, opacity: 0 });
 const cube1 = new THREE.Mesh(geometry, material);
 cube1.position.set(1.2, 3.568, -0.724);
 cube1.rotation.set(THREE.Math.degToRad(0), THREE.Math.degToRad(38.29), THREE.Math.degToRad(0));
@@ -187,3 +201,35 @@ function animate() {
 }
 
 animate();
+
+function playAnimation() {
+    plateBounceAction.play();
+    forkBounceAction.play();
+    plate2BounceAction.play();
+    steakBounceAction.play();
+    steakBounceSKAction.play();
+}
+
+function click() {
+    steakBounceSKAction.stop();
+    plateBounceAction.stop();
+    forkBounceAction.stop();
+    plate2BounceAction.stop();
+    steakBounceAction.stop();
+
+    playAnimation();
+}
+
+window.addEventListener('click', click, false);
+
+
+window.addEventListener('resize', onWindowResize, false);
+
+function onWindowResize() {
+
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+
+    renderer.setSize(window.innerWidth, window.innerHeight);
+
+}
