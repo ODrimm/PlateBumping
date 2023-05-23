@@ -74,10 +74,10 @@ loader.load('assets/3d/objects.gltf', function (gltf) {
 });
 
 const light = new THREE.SpotLight(0xfbffe0);
-light.position.set(2.9, 5.18, -2.37);
+light.position.set(3.220, 4.980, -2.546);
 light.distance = 8.25;
 light.intensity = 400;
-light.angle = 1.014;
+light.angle = 0.914;
 light.decay = 1.72;
 light.castShadow = true;
 
@@ -92,7 +92,6 @@ scene.add(light);
 
 const ambientLight = new THREE.AmbientLight(0x222222);
 ambientLight.intensity = 5.3;
-ambientLight.castShadow = true;
 scene.add(ambientLight);
 
 function animate() {
