@@ -75,6 +75,8 @@ controls.minAzimuthAngle = THREE.Math.degToRad(155);
 controls.enableDamping = true;
 controls.dampingFactor = 0.01;
 
+controls.enablePan = false;
+
 controls.update();
 
 
