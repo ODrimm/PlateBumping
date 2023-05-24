@@ -1,9 +1,18 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
+import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
+import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
+import { RGBShiftShader } from 'three/addons/shaders/RGBShiftShader.js';
+import { ShaderPass } from 'three/addons/postprocessing/ShaderPass.js';
+import { FXAAShader } from 'three/addons/shaders/FXAAShader.js';
+
 
 
 const scene = new THREE.Scene();
+scene.fog = new THREE.Fog( 0x000000, 2.7, 10 );
+
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 
 camera.position.set(-1.882, 1.543, -3.822);
@@ -12,23 +21,45 @@ camera.rotation.set(THREE.Math.degToRad(0), THREE.Math.degToRad(180), THREE.Math
 const clock = new THREE.Clock();
 
 
+
+
 const renderer = new THREE.WebGLRenderer();
+
 renderer.setSize(window.innerWidth, window.innerHeight);
+
+
 renderer.physicallyCorrectLights = false;
 renderer.toneMapping = THREE.ReinhardToneMapping;
 renderer.shadowMap.enabled = true;
 renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-
-
 renderer.antialias = true;
 renderer.outputColorSpace = THREE.SRGBColorSpace;
+
+
+const composer = new EffectComposer(renderer);
+const renderPass = new RenderPass( scene, camera );
+composer.addPass(renderPass);
+
+const fxaaPass = new ShaderPass(FXAAShader);
+fxaaPass.material.uniforms[ 'resolution' ].value.x = 1 / (window.innerWidth * window.devicePixelRatio);
+composer.addPass(fxaaPass);
+
+const unrealBloomPass = new UnrealBloomPass();
+unrealBloomPass.strength = 0.2;
+unrealBloomPass.threshold = 0.1;
+unrealBloomPass.renderToScreen = true;
+composer.addPass(unrealBloomPass);
+
+const rgbShiftShader = new ShaderPass(RGBShiftShader);
+rgbShiftShader.uniforms[ 'amount' ].value = 0.0009;
+composer.addPass(rgbShiftShader);
 
 document.body.appendChild(renderer.domElement);
 
 const controls = new OrbitControls(camera, renderer.domElement);
 controls.mouseButtons = {
-	MIDDLE: THREE.MOUSE.DOLLY,
-	RIGHT: THREE.MOUSE.ROTATE
+    MIDDLE: THREE.MOUSE.DOLLY,
+    RIGHT: THREE.MOUSE.ROTATE
 }
 
 
@@ -201,7 +232,8 @@ function animate() {
 
     controls.update();
 
-    renderer.render(scene, camera);
+    composer.render();
+    // renderer.render(scene, camera);
 }
 
 animate();
@@ -230,17 +262,17 @@ function click() {
     playAnimation();
 }
 
-function cameraShake(){
-    let shakeIntensity = 0.1;
-    console.log(camera.position)
+function cameraShake() {
+    console.log(controls.getDistance())
+    let shakeIntensity = 0.04;
+    let shakeDuration = 0.09;
 
-    camera.position.set(camera.position.x + shakeIntensity, camera.position.y, camera.position.z);
-    setTimeout(function () {
-        camera.position.set(camera.position.x - shakeIntensity, camera.position.y, camera.position.z);
-        setTimeout(function () {
-            camera.position.set(camera.position.x + shakeIntensity, camera.position.y, camera.position.z);
-        }, 100);
-    }, 100);
+    let tl = gsap.timeline();
+
+    tl.to(camera.position, { duration: shakeDuration, x: camera.position.x * (1 - shakeIntensity), y: camera.position.y * (1 - shakeIntensity), z: camera.position.z * (1 - shakeIntensity) });
+    tl.to(camera.position, { duration: shakeDuration, x: camera.position.x * (1 + shakeIntensity * 2), y: camera.position.y * (1 + shakeIntensity * 2), z: camera.position.z * (1 + shakeIntensity * 2) });
+    tl.to(camera.position, { duration: shakeDuration, x: camera.position.x * (1 - shakeIntensity * 2), y: camera.position.y * (1 - shakeIntensity * 2), z: camera.position.z * (1 - shakeIntensity * 2) });
+    tl.to(camera.position, { duration: shakeDuration, x: camera.position.x * (1 + shakeIntensity), y: camera.position.y * (1 + shakeIntensity), z: camera.position.z * (1 + shakeIntensity) });
 }
 
 window.addEventListener('click', click, false);
