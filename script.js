@@ -12,6 +12,7 @@ const loadScreen = document.querySelector('.loading');
 const mobileScreen = document.querySelector('.mobile');
 const desktopScreen = document.querySelector('.desktop');
 const menu = document.querySelector('.menu');
+let isLoaded = false;
 
 const scene = new THREE.Scene();
 scene.fog = new THREE.Fog( 0x000000, 2.7, 10 );
@@ -90,11 +91,13 @@ manager.onStart = function ( url, itemsLoaded, itemsTotal ) {
     loadScreen.classList.remove('hidden');
     desktopScreen.classList.add('hidden');
     mobileScreen.classList.add('hidden');
+    isLoaded = false;
 };
 
 manager.onLoad = function ( ) {
 	console.log( 'Loading complete!');
     loadScreen.classList.add('hidden');
+    isLoaded = true;
 
     if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) { //if mobile device font is darker
         mobileScreen.classList.remove('hidden');
@@ -273,7 +276,9 @@ function playAnimation() {
 }
 
 function click() {
-    menu.classList.add('hidden');
+    if(isLoaded){
+        menu.classList.add('hidden');
+    }
 
 
     steakBounceSKAction.stop();
