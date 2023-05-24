@@ -8,7 +8,10 @@ import { RGBShiftShader } from 'three/addons/shaders/RGBShiftShader.js';
 import { ShaderPass } from 'three/addons/postprocessing/ShaderPass.js';
 import { FXAAShader } from 'three/addons/shaders/FXAAShader.js';
 
-
+const loadScreen = document.querySelector('.loading');
+const mobileScreen = document.querySelector('.mobile');
+const desktopScreen = document.querySelector('.desktop');
+const menu = document.querySelector('.menu');
 
 const scene = new THREE.Scene();
 scene.fog = new THREE.Fog( 0x000000, 2.7, 10 );
@@ -80,7 +83,28 @@ controls.enablePan = false;
 controls.update();
 
 
-const loader = new GLTFLoader();
+const manager = new THREE.LoadingManager();
+
+manager.onStart = function ( url, itemsLoaded, itemsTotal ) {
+	console.log( 'Started loading file: ' + url + '.\nLoaded ' + itemsLoaded + ' of ' + itemsTotal + ' files.' );
+    loadScreen.classList.remove('hidden');
+    desktopScreen.classList.add('hidden');
+    mobileScreen.classList.add('hidden');
+};
+
+manager.onLoad = function ( ) {
+	console.log( 'Loading complete!');
+    loadScreen.classList.add('hidden');
+
+    if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) { //if mobile device font is darker
+        mobileScreen.classList.remove('hidden');
+        console.log('mobile');
+    } else {
+        desktopScreen.classList.remove('hidden');
+    }
+};
+
+const loader = new GLTFLoader(manager);
 
 let plateBounce;
 let forkBounce;
@@ -249,6 +273,9 @@ function playAnimation() {
 }
 
 function click() {
+    menu.classList.add('hidden');
+
+
     steakBounceSKAction.stop();
     plateBounceAction.stop();
     forkBounceAction.stop();
@@ -265,7 +292,6 @@ function click() {
 }
 
 function cameraShake() {
-    console.log(controls.getDistance())
     let shakeIntensity = 0.04;
     let shakeDuration = 0.09;
 

@@ -8,7 +8,7 @@
     <link type="text/css" rel="stylesheet" href="style.css">
     <meta name=" description " content="Bump the plate">
     <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/gsap.min.js"></script>
-    
+
 
     <script defer type="importmap">
     {
@@ -24,6 +24,61 @@
 
 <body>
     <canvas id="canvas"></canvas>
+    <section class="menu">
+        <section class="display mobile hidden">
+            <section class="info tap">
+                <section class="icon">
+                    <img src="./assets/svg/tap.svg" alt="">
+                </section>
+                <section class="label">
+                    TAP TO BUMP THE PLATE
+                </section>
+            </section>
+            <section class="info swipe">
+                <section class="icon">
+                    <img src="./assets/svg/swipe.svg" alt="">
+                </section>
+                <section class="label">
+                    SWIPE TO MOVE THE CAMERA
+                </section>
+            </section>
+        </section>
+        <section class="display desktop hidden">
+            <section class="info leftclick">
+                <section class="icon">
+                    <img src="./assets/svg/leftclick.svg" alt="">
+                </section>
+                <section class="label">
+                    LEFT CLICK TO BUMP THE PLATE
+                </section>
+            </section>
+            <section class="info rightclick">
+                <section class="icon">
+                    <img src="./assets/svg/rightclick.svg" alt="">
+                </section>
+                <section class="label">
+                    RIGHT CLICK TO MOVE THE CAMERA
+                </section>
+            </section>
+        </section>
+        <section class="display loading">
+            <div class="lds-spinner">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+        </section>
+    </section>
+
 </body>
 
 </html>
