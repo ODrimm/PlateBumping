@@ -207,12 +207,13 @@ loader.load('assets/3d/objects.gltf', function (gltf) {
 });
 
 const light = new THREE.SpotLight(0xfbffe0);
-light.position.set(3.220, 4.980, -2.546);
-light.distance = 10;
+light.position.set(0, 4.980, 0);
+light.distance = 9;
 light.intensity = 45;
-light.angle = 0.914;
+light.angle = 0.514;
 light.decay = 2;
 light.castShadow = true;
+light.penumbra = 0.8;
 
 light.shadow.camera.left = -5
 light.shadow.camera.right = 5
