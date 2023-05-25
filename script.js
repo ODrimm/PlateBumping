@@ -311,6 +311,7 @@ function cameraShake() {
 }
 
 window.addEventListener('click', click, false);
+document.addEventListener('click', click, false);
 
 
 window.addEventListener('resize', onWindowResize, false);

@@ -26,6 +26,7 @@ body {
     width: 100vw;
     background-color: rgb(14, 14, 14);
     opacity: 0.8;
+    pointer-events: none;
 }
 
 
