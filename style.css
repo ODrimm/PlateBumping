@@ -12,14 +12,12 @@ body {
     background-color: black;
     font-weight: bolder;
     font-family: "Luam";
-    cursor: pointer;
 }
 
 
 #canvas {
     position: fixed;
     z-index: 2;
-    cursor: pointer;
 }
 
 .menu {
@@ -28,7 +26,6 @@ body {
     width: 100vw;
     background-color: rgb(14, 14, 14);
     opacity: 0.8;
-    cursor: pointer;
 }
 
 
@@ -43,7 +40,6 @@ body {
     align-items: center;
     opacity: 1;
     transition: all 1s;
-    cursor: pointer;
 }
 
 .loading{
@@ -55,9 +51,6 @@ body {
     flex-direction: column;
     align-items: center;
     gap: 1rem;
-}
-
-.desktop {
 }
 
 .mobile {
@@ -163,4 +156,5 @@ body {
 .hidden{
     opacity: 0;
     pointer-events: none;
+    display: none;
 }

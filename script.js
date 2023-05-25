@@ -101,7 +101,6 @@ manager.onLoad = function ( ) {
 
     if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) { //if mobile device font is darker
         mobileScreen.classList.remove('hidden');
-        console.log('mobile');
     } else {
         desktopScreen.classList.remove('hidden');
     }
@@ -262,7 +261,6 @@ function animate() {
     controls.update();
 
     composer.render();
-    // renderer.render(scene, camera);
 }
 
 animate();
