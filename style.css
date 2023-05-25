@@ -12,11 +12,9 @@ body {
     background-color: black;
     font-weight: bolder;
     font-family: "Luam";
-}
-
-body{
     cursor: pointer;
 }
+
 
 #canvas {
     position: fixed;
@@ -29,6 +27,7 @@ body{
     width: 100vw;
     background-color: rgb(14, 14, 14);
     opacity: 0.8;
+    cursor: pointer;
 }
 
 
@@ -43,6 +42,7 @@ body{
     align-items: center;
     opacity: 1;
     transition: all 1s;
+    cursor: pointer;
 }
 
 .loading{
