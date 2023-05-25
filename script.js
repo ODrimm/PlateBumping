@@ -278,6 +278,10 @@ function playAnimation() {
 function click() {
     if(isLoaded){
         menu.classList.add('hidden');
+        loadScreen.classList.add('hidden');
+        desktopScreen.classList.add('hidden');
+        mobileScreen.classList.add('hidden');
+        menu.style.display = 'none';
     }
 
 
