@@ -32,7 +32,7 @@ const renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
 
 
-renderer.physicallyCorrectLights = false;
+renderer.useLegacyLights = true;
 renderer.toneMapping = THREE.ReinhardToneMapping;
 renderer.shadowMap.enabled = true;
 renderer.shadowMap.type = THREE.PCFSoftShadowMap;
@@ -247,7 +247,6 @@ cube4.position.set(2.598, 3.691, -0.802);
 cube4.rotation.set(THREE.Math.degToRad(0), THREE.Math.degToRad(132.96), THREE.Math.degToRad(0));
 cube4.castShadow = true;
 
-scene.add(cube1, cube2, cube3, cube4);
 
 
 
